@@ -1,0 +1,11 @@
+{
+    "plugin": {
+        "name": "semgrep-bn",
+        "version": "1.0",
+        "author": "Samman Palihapitiya",
+        "description": "Search code with Semgrep",
+        "license": "MIT",
+        "api": "python3",
+        "minimumBinaryNinjaVersion": "3.5"
+    }
+}

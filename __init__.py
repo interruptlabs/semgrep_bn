@@ -429,13 +429,16 @@ class SemgrepAnalysis(BackgroundTaskThread):
         rest is kept the same.
         """
         tree = self.parser.parse(bytes(src, "utf8"))
+        # captures now returns a dict of capture name -> list of nodes
         captures = self.func_annot_query.captures(tree.root_node)
         src_list = list(src)
 
-        for node, _ in captures:
-            # replace each annotation with the empty string
-            for i in range(node.start_byte, node.end_byte):
-                src_list[i] = ""
+        # Process all nodes from all capture groups
+        for capture_list in captures.values():
+            for node in capture_list:
+                # replace each annotation with the empty string
+                for i in range(node.start_byte, node.end_byte):
+                    src_list[i] = ""
 
         # reconstruct source code from the list
         return "".join(src_list)

@@ -1,3 +1,4 @@
 emoji
 tree-sitter
+tree-sitter-c
 semgrep

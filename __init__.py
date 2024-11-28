@@ -10,22 +10,15 @@ from tempfile import NamedTemporaryFile
 from typing import Dict, List, Optional, Tuple
 import json
 import re
-import struct
 import subprocess
 import html
 
 from tree_sitter import Language, Parser, Query
+import tree_sitter_c
 import emoji
 
 from binaryninja import *
 
-
-# directory path to the current script
-CURRENT_DIR = Path(__file__).parent
-
-# tree-sitter files
-TREE_SITTER_C = CURRENT_DIR / "tree-sitter-c"
-TREE_SITTER_LIB = CURRENT_DIR / "build" / "tree-sitter-c.so"
 
 # query to search tree-sitter's syntax tree for illegal identifier annotations
 FUNC_ANNOT_QUERY_STR = """
@@ -249,15 +242,9 @@ class SemgrepAnalysis(BackgroundTaskThread):
             self.bv, disas_settings
         )
 
-        # initialize tree-sitter
-        if not TREE_SITTER_LIB.is_file():
-            Language.build_library(str(TREE_SITTER_LIB), [str(TREE_SITTER_C)])
-            if not TREE_SITTER_LIB.is_file():
-                raise Exception("Failed to build tree-sitter lib")
-
-        c_language = Language(str(TREE_SITTER_LIB), "c")
+        c_language = Language(tree_sitter_c.language())
         self.parser = Parser()
-        self.parser.set_language(c_language)
+        self.parser.language = c_language
         self.func_annot_query = c_language.query(FUNC_ANNOT_QUERY_STR)
 
     def run(self):
@@ -284,11 +271,10 @@ class SemgrepAnalysis(BackgroundTaskThread):
             ]
 
             # generate temp files for pseudo C code and semgrep findings
-            with NamedTemporaryFile(
-                suffix=".c", mode="w+"
-            ) as pseudo_c_out, NamedTemporaryFile(
-                suffix=".json", mode="w+"
-            ) as semgrep_results_out:
+            with (
+                NamedTemporaryFile(suffix=".c", mode="w+") as pseudo_c_out,
+                NamedTemporaryFile(suffix=".json", mode="w+") as semgrep_results_out,
+            ):
                 # serialise pseudo C contents
                 for gv in global_vars:
                     pseudo_c_out.write(f"{gv}\n")

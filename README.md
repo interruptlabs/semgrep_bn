@@ -7,10 +7,10 @@
 
 ## Installation
 
-1. Clone the `semgrep_bn` repo (with its submodules) into the Binary Ninja plugins directory (see [here](https://docs.binary.ninja/guide/plugins.html) for the location of your plugin folder).
+1. Clone the `semgrep_bn` repo into the Binary Ninja plugins directory (see [here](https://docs.binary.ninja/guide/plugins.html) for the location of your plugin folder).
 
 ```shell
-git clone --recurse-submodules https://github.com/interruptlabs/semgrep_bn
+git clone https://github.com/interruptlabs/semgrep_bn
 ```
 
 2. Install the Python dependencies.

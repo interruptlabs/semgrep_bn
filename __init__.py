@@ -429,7 +429,6 @@ class SemgrepAnalysis(BackgroundTaskThread):
         rest is kept the same.
         """
         tree = self.parser.parse(bytes(src, "utf8"))
-        # captures now returns a dict of capture name -> list of nodes
         captures = self.func_annot_query.captures(tree.root_node)
         src_list = list(src)
 

@@ -1,3 +1,4 @@
 emoji
-tree-sitter
+tree-sitter==0.23.2
+tree-sitter-c==0.23.4
 semgrep

@@ -1,12 +1,16 @@
 {
     "pluginmetadataversion": 2,
     "name": "semgrep-bn",
-    "version": "1.0",
+    "version": "1.0.1",
     "author": "Samman Palihapitiya",
-    "type": [ "helper" ],
+    "type": [
+        "helper"
+    ],
     "description": "Search code with Semgrep",
     "longdescription": "",
-    "api": [ "python3" ],
+    "api": [
+        "python3"
+    ],
     "platforms": [
         "Darwin",
         "Linux",
